@@ -3,16 +3,17 @@ package ru.easycode.zerotoheroandroidtdd
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import java.io.Serializable
 
-private const val TITLE_TEXT = "title_text"
-private const val TITLE_VISIBILITY = "title_visibility"
-private const val TITLE_IS_ATTACHED = "title_is_attached"
+private const val TEXT_VIEW_STATE_MANAGER = "TEXT_VIEW_STATE_MANAGER"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var textViewStateManager: TextViewStateManager
     private lateinit var rootView: LinearLayout
     private lateinit var titleTextView: TextView
     private lateinit var changeBtn: Button
@@ -28,14 +29,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(TITLE_TEXT, titleTextView.text.toString())
-        outState.putInt(TITLE_VISIBILITY, titleTextView.visibility)
-        outState.putBoolean(TITLE_IS_ATTACHED, titleTextView.isAttachedToWindow)
+        outState.putSerializable(TEXT_VIEW_STATE_MANAGER, textViewStateManager)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        restoreTitleTextView(savedInstanceState)
+        val textViewStateManager = savedInstanceState.getSerializable(
+            TEXT_VIEW_STATE_MANAGER,
+            TextViewStateManager::class.java
+        ) as TextViewStateManager
+        this.textViewStateManager = textViewStateManager
     }
 
     private fun initViews() {
@@ -44,25 +47,23 @@ class MainActivity : AppCompatActivity() {
         changeBtn = findViewById(R.id.changeButton)
         hideBtn = findViewById(R.id.hideButton)
         removeBtn = findViewById(R.id.removeButton)
+        textViewStateManager = TextViewStateManager(
+            rootView = rootView,
+            textView = titleTextView,
+            hideButton = hideBtn,
+            removeButton = removeBtn,
+        )
     }
 
     private fun setListeners() {
-        changeBtn.setOnClickListener { titleTextView.text = getString(R.string.android_dev) }
-        hideBtn.setOnClickListener { titleTextView.visibility = View.GONE }
-        removeBtn.setOnClickListener {
-            rootView.removeView(titleTextView)
-            removeBtn.isEnabled = false
+        changeBtn.setOnClickListener {
+            textViewStateManager.change(getString(R.string.android_dev))
         }
-    }
-
-    private fun restoreTitleTextView(savedInstanceState: Bundle) {
-        val notAttached = !savedInstanceState.getBoolean(TITLE_IS_ATTACHED)
-        if (notAttached) {
-            rootView.removeView(titleTextView)
-            removeBtn.isEnabled = false
-        } else {
-            titleTextView.text = savedInstanceState.getString(TITLE_TEXT)
-            titleTextView.visibility = savedInstanceState.getInt(TITLE_VISIBILITY)
+        hideBtn.setOnClickListener {
+            textViewStateManager.hideView()
+        }
+        removeBtn.setOnClickListener {
+            textViewStateManager.removeView()
         }
     }
 }
