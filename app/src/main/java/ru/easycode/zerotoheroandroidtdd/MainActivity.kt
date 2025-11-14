@@ -49,13 +49,18 @@ class MainActivity : AppCompatActivity() {
     private fun setListeners() {
         changeBtn.setOnClickListener { titleTextView.text = getString(R.string.android_dev) }
         hideBtn.setOnClickListener { titleTextView.visibility = View.GONE }
-        removeBtn.setOnClickListener { rootView.removeView(titleTextView) }
+        removeBtn.setOnClickListener {
+            rootView.removeView(titleTextView)
+            removeBtn.isEnabled = false
+        }
     }
 
     private fun restoreTitleTextView(savedInstanceState: Bundle) {
         val notAttached = !savedInstanceState.getBoolean(TITLE_IS_ATTACHED)
-        if (notAttached) rootView.removeView(titleTextView)
-        else {
+        if (notAttached) {
+            rootView.removeView(titleTextView)
+            removeBtn.isEnabled = false
+        } else {
             titleTextView.text = savedInstanceState.getString(TITLE_TEXT)
             titleTextView.visibility = savedInstanceState.getInt(TITLE_VISIBILITY)
         }
