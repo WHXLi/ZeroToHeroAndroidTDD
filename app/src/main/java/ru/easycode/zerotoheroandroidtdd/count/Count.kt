@@ -1,8 +1,10 @@
 package ru.easycode.zerotoheroandroidtdd.count
 
+import ru.easycode.zerotoheroandroidtdd.state.UiState
+
 interface Count {
 
-    fun increment(number: String): String
+    fun increment(number: String): UiState
 
     class Base(private val step: Int): Count {
 
@@ -12,6 +14,6 @@ interface Count {
             )
         }
 
-        override fun increment(number: String) = (number.toInt() + step).toString()
+        override fun increment(number: String) = UiState()
     }
 }

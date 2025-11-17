@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import ru.easycode.zerotoheroandroidtdd.count.Count
 
 private const val TITLE_MANAGER = "TITLE_MANAGER"
@@ -15,6 +16,7 @@ private const val COUNT_MANAGER = "COUNT_MANAGER"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: MainViewModel
     private lateinit var titleTextViewManager: TextViewStateManager
     private lateinit var countTextViewManager: TextViewStateManager
     private lateinit var rootView: LinearLayout
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         setContentView(R.layout.activity_main)
         initViews()
         setListeners()
