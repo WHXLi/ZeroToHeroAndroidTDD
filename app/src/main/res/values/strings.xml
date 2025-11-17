@@ -5,4 +5,6 @@
     <string name="change">change</string>
     <string name="hide">hide</string>
     <string name="remove">remove</string>
+    <string name="zero">0</string>
+    <string name="increment">increment</string>
 </resources>
