@@ -1,13 +1,13 @@
 package ru.easycode.zerotoheroandroidtdd
 
+import TextViewStateManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import java.io.Serializable
+import androidx.core.view.isVisible
 
 private const val TEXT_VIEW_STATE_MANAGER = "TEXT_VIEW_STATE_MANAGER"
 
@@ -34,11 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val textViewStateManager = savedInstanceState.getSerializable(
-            TEXT_VIEW_STATE_MANAGER,
-            TextViewStateManager::class.java
-        ) as TextViewStateManager
-        this.textViewStateManager = textViewStateManager
+        savedInstanceState.restoreTextViewManager()?.let { this.textViewStateManager = it }
     }
 
     private fun initViews() {
@@ -48,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         hideBtn = findViewById(R.id.hideButton)
         removeBtn = findViewById(R.id.removeButton)
         textViewStateManager = TextViewStateManager(
-            rootView = rootView,
             textView = titleTextView,
             hideButton = hideBtn,
             removeButton = removeBtn,
@@ -57,13 +52,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         changeBtn.setOnClickListener {
-            textViewStateManager.change(getString(R.string.android_dev))
+            textViewStateManager.changeText(getString(R.string.android_dev))
         }
         hideBtn.setOnClickListener {
-            textViewStateManager.hideView()
+            if (titleTextView.isVisible) textViewStateManager.hideView()
+            else textViewStateManager.show()
         }
         removeBtn.setOnClickListener {
             textViewStateManager.removeView()
         }
+    }
+
+    private fun Bundle.restoreTextViewManager(): TextViewStateManager? {
+        return this.getTextViewManager()?.apply {
+            restore(
+                titleTextView,
+                removeBtn,
+                hideBtn,
+            )
+        }
+    }
+
+    private fun Bundle.getTextViewManager(): TextViewStateManager? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSerializable(TEXT_VIEW_STATE_MANAGER, TextViewStateManager::class.java)
+        } else getSerializable(TEXT_VIEW_STATE_MANAGER) as? TextViewStateManager
     }
 }
