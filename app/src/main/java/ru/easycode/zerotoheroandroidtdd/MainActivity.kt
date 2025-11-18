@@ -1,11 +1,73 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import ru.easycode.zerotoheroandroidtdd.state.UiState
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: MainViewModel
+    private lateinit var rootView: LinearLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var changeButton: Button
+    private lateinit var hideButton: Button
+    private lateinit var removeButton: Button
+    private lateinit var countTextView: TextView
+    private lateinit var incrementButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         setContentView(R.layout.activity_main)
+        initViews()
+        initObservers()
+        setListeners()
+    }
+
+    private fun initViews() {
+        rootView = findViewById(R.id.rootLayout)
+        titleTextView = findViewById(R.id.titleTextView)
+        countTextView = findViewById(R.id.countTextView)
+        changeButton = findViewById(R.id.changeButton)
+        hideButton = findViewById(R.id.hideButton)
+        removeButton = findViewById(R.id.removeButton)
+        incrementButton = findViewById(R.id.incrementButton)
+    }
+
+    private fun initObservers() {
+        viewModel.getUiState().observe(this) { handleUiState(it) }
+    }
+
+    private fun setListeners() {
+        changeButton.setOnClickListener {
+
+        }
+        hideButton.setOnClickListener {
+
+        }
+        removeButton.setOnClickListener {
+
+        }
+        incrementButton.setOnClickListener {
+            viewModel.increment(countTextView.text.toString(), 2, 4)
+        }
+    }
+
+    private fun handleUiState(uiState: UiState) = when(uiState) {
+        is UiState.Base -> {
+            countTextView.text = uiState.text
+            incrementButton.isEnabled = true
+        }
+        is UiState.Max -> {
+            countTextView.text = uiState.text
+            incrementButton.isEnabled = false
+        }
     }
 }
