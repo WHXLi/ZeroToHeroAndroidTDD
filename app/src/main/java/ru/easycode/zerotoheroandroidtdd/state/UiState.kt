@@ -1,17 +1,8 @@
 package ru.easycode.zerotoheroandroidtdd.state
 
-sealed class UiState(val text: String) {
+sealed class UiState() {
 
-    class Base(text: String): UiState(text)
-
-    class Max(text: String): UiState(text)
-
-    override fun equals(other: Any?): Boolean {
-        if (other is UiState) return text == other.text
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
+    data class Base(private val text: String): UiState()
+    data class Max(private val text: String): UiState()
+    data class Min(private val text: String): UiState()
 }

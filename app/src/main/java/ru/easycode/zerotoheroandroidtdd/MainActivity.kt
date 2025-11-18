@@ -1,14 +1,11 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import ru.easycode.zerotoheroandroidtdd.state.UiState
 
 class MainActivity : AppCompatActivity() {
