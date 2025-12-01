@@ -27,7 +27,9 @@ interface Count {
         }
 
         override fun initial(number: String): UiState = when {
-            number == min -> UiState.Min
+            number.toInt() == min -> UiState.Min(number)
+            number.toInt() == max -> UiState.Max(number)
+            else -> UiState.Base(number)
         }
 
         override fun increment(number: String): UiState {
@@ -38,7 +40,7 @@ interface Count {
 
         override fun decrement(number: String): UiState {
             val decremented = number.toInt() - step
-            return if (decremented <= min) UiState.Max(min.toString())
+            return if (decremented <= min) UiState.Min(min.toString())
             else UiState.Base(decremented.toString())
         }
     }

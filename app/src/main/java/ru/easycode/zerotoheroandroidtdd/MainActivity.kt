@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var removeButton: Button
     private lateinit var countTextView: TextView
     private lateinit var incrementButton: Button
+    private lateinit var decrementButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         hideButton = findViewById(R.id.hideButton)
         removeButton = findViewById(R.id.removeButton)
         incrementButton = findViewById(R.id.incrementButton)
+        decrementButton = findViewById(R.id.decrementButton)
     }
 
     private fun initObservers() {
@@ -53,18 +55,28 @@ class MainActivity : AppCompatActivity() {
 
         }
         incrementButton.setOnClickListener {
-            viewModel.increment(countTextView.text.toString(), 2, 4)
+            viewModel.increment(countTextView.text.toString(), 2, 4, 0)
+        }
+        decrementButton.setOnClickListener {
+            viewModel.decrement(countTextView.text.toString(), 2, 4, 0)
         }
     }
 
-    private fun handleUiState(uiState: UiState) = when(uiState) {
+    private fun handleUiState(uiState: UiState) = when (uiState) {
         is UiState.Base -> {
             countTextView.text = uiState.text
             incrementButton.isEnabled = true
+            decrementButton.isEnabled = true
         }
         is UiState.Max -> {
             countTextView.text = uiState.text
             incrementButton.isEnabled = false
+            decrementButton.isEnabled = true
+        }
+        is UiState.Min -> {
+            countTextView.text = uiState.text
+            incrementButton.isEnabled = true
+            decrementButton.isEnabled = false
         }
     }
 }

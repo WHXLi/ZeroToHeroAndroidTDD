@@ -7,4 +7,6 @@
     <string name="remove">remove</string>
     <string name="zero">0</string>
     <string name="increment">increment</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>

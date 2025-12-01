@@ -12,7 +12,11 @@ class MainViewModel(): ViewModel() {
 
     fun getUiState(): LiveData<UiState> = uiState
 
-    fun increment(number: String, step: Int, max: Int) {
-        uiState.postValue(Count.Base(step, max).increment(number))
+    fun increment(number: String, step: Int, max: Int, min: Int) {
+        uiState.postValue(Count.Base(step, max, min).increment(number))
+    }
+
+    fun decrement(number: String, step: Int, max: Int, min: Int) {
+        uiState.postValue(Count.Base(step, max, min).decrement(number))
     }
 }

@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +22,7 @@
         android:id="@+id/removeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/remove"/>
 
     <Button
@@ -43,11 +45,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/decrementButton"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minus"/>
+
         <TextView
             android:id="@+id/countTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="@string/zero"/>
 
         <Button
@@ -55,7 +65,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/increment"/>
+            android:text="@string/plus"/>
 
     </LinearLayout>
 
