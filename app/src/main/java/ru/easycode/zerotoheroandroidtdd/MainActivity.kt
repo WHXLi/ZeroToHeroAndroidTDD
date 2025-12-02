@@ -3,6 +3,8 @@ package ru.easycode.zerotoheroandroidtdd
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import ru.easycode.zerotoheroandroidtdd.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,8 +15,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModelFactory = ViewModelFactory(LiveDataWrapper.Base(), Repository.Base())
         binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = MainViewModel(LiveDataWrapper.Base(), Repository.Base())
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         setContentView(binding.root)
         initListeners()
         initObservers()
@@ -26,6 +29,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.stateLiveData().observe(this) { it.apply(uiHandler) }
+    }
+
+    private inner class ViewModelFactory(
+        val liveDataWrapper: LiveDataWrapper,
+        val repository: Repository,
+    ): ViewModelProvider.Factory {
+
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
+            MainViewModel(liveDataWrapper,repository) as T
     }
 
     private inner class UiHandler() : UiState.Handler() {
