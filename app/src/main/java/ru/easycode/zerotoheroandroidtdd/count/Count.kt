@@ -29,9 +29,9 @@ interface Count {
 
         override fun initial(number: String): UiState {
             current = number.toInt()
-            return when {
-                number.toInt() == min -> UiState.Min(number)
-                number.toInt() == max -> UiState.Max(number)
+            return when (current) {
+                min -> UiState.Min(number)
+                max -> UiState.Max(number)
                 else -> UiState.Base(number)
             }
         }
