@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import ru.easycode.zerotoheroandroidtdd.count.Count
 import ru.easycode.zerotoheroandroidtdd.state.UiState
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initViews()
         initObservers()
+        initBaseCount()
         setListeners()
     }
 
@@ -44,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.getUiState().observe(this) { handleUiState(it) }
     }
 
+    private fun initBaseCount() {
+        val baseCount = viewModel.getCount() as? Count.Base
+        baseCount?.let { viewModel.initial(it.current.toString(), it) }
+    }
+
     private fun setListeners() {
         changeButton.setOnClickListener {
 
@@ -55,10 +62,10 @@ class MainActivity : AppCompatActivity() {
 
         }
         incrementButton.setOnClickListener {
-            viewModel.increment(countTextView.text.toString(), 2, 4, 0)
+            viewModel.increment(countTextView.text.toString())
         }
         decrementButton.setOnClickListener {
-            viewModel.decrement(countTextView.text.toString(), 2, 4, 0)
+            viewModel.decrement(countTextView.text.toString())
         }
     }
 

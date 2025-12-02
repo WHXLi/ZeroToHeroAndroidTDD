@@ -9,9 +9,10 @@ interface Count {
     fun decrement(number: String): UiState
 
     class Base(
-        private val step: Int,
-        private val max: Int,
-        private val min: Int,
+        val step: Int,
+        val max: Int,
+        val min: Int,
+        var current: Int = 0,
     ): Count {
 
         init {
@@ -26,20 +27,25 @@ interface Count {
             )
         }
 
-        override fun initial(number: String): UiState = when {
-            number.toInt() == min -> UiState.Min(number)
-            number.toInt() == max -> UiState.Max(number)
-            else -> UiState.Base(number)
+        override fun initial(number: String): UiState {
+            current = number.toInt()
+            return when {
+                number.toInt() == min -> UiState.Min(number)
+                number.toInt() == max -> UiState.Max(number)
+                else -> UiState.Base(number)
+            }
         }
 
         override fun increment(number: String): UiState {
             val incremented = number.toInt() + step
+            current = incremented
             return if (incremented >= max) UiState.Max(max.toString())
             else UiState.Base(incremented.toString())
         }
 
         override fun decrement(number: String): UiState {
             val decremented = number.toInt() - step
+            current = decremented
             return if (decremented <= min) UiState.Min(min.toString())
             else UiState.Base(decremented.toString())
         }
