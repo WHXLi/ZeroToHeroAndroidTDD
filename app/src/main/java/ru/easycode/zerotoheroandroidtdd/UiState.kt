@@ -1,6 +1,8 @@
 package ru.easycode.zerotoheroandroidtdd
 
-sealed class UiState {
+import java.io.Serializable
+
+sealed class UiState: Serializable {
 
     abstract fun apply(handler: Handler)
 

@@ -16,4 +16,13 @@ class MainViewModel(
         repository.load()
         liveDataWrapper.update(UiState.ShowData)
     }
+
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        liveDataWrapper.save(bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        val uiState = bundleWrapper.restore()
+        liveDataWrapper.update(uiState)
+    }
 }

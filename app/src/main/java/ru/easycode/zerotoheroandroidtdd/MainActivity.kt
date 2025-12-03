@@ -31,6 +31,16 @@ class MainActivity : AppCompatActivity() {
         viewModel.stateLiveData().observe(this) { it.apply(uiHandler) }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        viewModel.restore(BundleWrapper.Base(savedInstanceState))
+    }
+
     private inner class ViewModelFactory(
         val liveDataWrapper: LiveDataWrapper,
         val repository: Repository,

@@ -7,14 +7,20 @@ interface LiveDataWrapper {
 
     fun update(value: UiState)
 
+    fun save(bundleWrapper: BundleWrapper.Save)
+
     fun liveData(): LiveData<UiState>
 
     class Base(
-        private val liveData: MutableLiveData<UiState> = MutableLiveData()
+        private val liveData: MutableLiveData<UiState> = SingleLiveEvent()
     ): LiveDataWrapper {
 
         override fun update(value: UiState) {
             liveData.value = value
+        }
+
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            liveData.value?.let { bundleWrapper.save(it) }
         }
 
         override fun liveData(): LiveData<UiState> = liveData
