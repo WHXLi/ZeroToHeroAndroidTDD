@@ -3,6 +3,9 @@ package ru.easycode.zerotoheroandroidtdd
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.remote.Repository
+import ru.easycode.zerotoheroandroidtdd.remote.SimpleResponse
+import ru.easycode.zerotoheroandroidtdd.remote.SimpleService
 
 class RepositoryTest {
 
