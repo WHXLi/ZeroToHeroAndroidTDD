@@ -1,6 +1,10 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.repository.LoadResult
+import ru.easycode.zerotoheroandroidtdd.repository.SimpleResponse
+import ru.easycode.zerotoheroandroidtdd.state.UiState
+import ru.easycode.zerotoheroandroidtdd.wrapper.LiveDataWrapper
 
 class LoadResultTest {
 
