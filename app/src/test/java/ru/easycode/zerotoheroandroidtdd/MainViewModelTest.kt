@@ -1,13 +1,9 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.easycode.zerotoheroandroidtdd.screen.MainViewModel
-import ru.easycode.zerotoheroandroidtdd.wrapper.BundleWrapper
-import ru.easycode.zerotoheroandroidtdd.wrapper.ListLiveDataWrapper
 
 class MainViewModelTest {
 
@@ -17,7 +13,7 @@ class MainViewModelTest {
     @Before
     fun init() {
         listLiveDataWrapper = FakeListLiveDataWrapper.Base()
-        viewModel = MainViewModel(charSequenceLiveDataWrapper = listLiveDataWrapper)
+        viewModel = MainViewModel(listLiveDataWrapper = listLiveDataWrapper)
     }
 
     @Test
@@ -47,9 +43,7 @@ private interface FakeListLiveDataWrapper : ListLiveDataWrapper {
 
     class Base : FakeListLiveDataWrapper {
 
-        override val mutableLiveData: MutableLiveData<List<CharSequence>>
-            get() = TODO("Not yet implemented")
-        override val list = ArrayList<CharSequence>()
+        private val list = ArrayList<CharSequence>()
 
         override fun checkListSame(expected: List<CharSequence>) {
             assertEquals(expected, list)
@@ -67,8 +61,8 @@ private interface FakeListLiveDataWrapper : ListLiveDataWrapper {
             bundle.save(list)
         }
 
-        override fun update(param: List<CharSequence>) {
-            this.list.addAll(param)
+        override fun update(list: List<CharSequence>) {
+            this.list.addAll(list)
         }
     }
 }
