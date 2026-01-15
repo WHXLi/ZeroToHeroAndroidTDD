@@ -1,4 +1,4 @@
-package ru.easycode.zerotoheroandroidtdd
+package ru.easycode.zerotoheroandroidtdd.screens
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
