@@ -2,11 +2,13 @@ package ru.easycode.zerotoheroandroidtdd.screens
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.easycode.zerotoheroandroidtdd.databinding.ItemTextListBinding
+import ru.easycode.zerotoheroandroidtdd.utils.DiffUtilCallback
 
 class TextListAdapter(
-    private val data: MutableList<CharSequence> = mutableListOf()
+    private val items: MutableList<CharSequence> = mutableListOf()
 ): RecyclerView.Adapter<TextListAdapter.TextListHolder>() {
 
     override fun onCreateViewHolder(
@@ -27,12 +29,14 @@ class TextListAdapter(
       holder.bind(position)
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = items.size
 
-    fun addItems(items: List<CharSequence>) {
-        data.clear()
-        data.addAll(items)
-        notifyDataSetChanged()
+    fun update(newItems: List<CharSequence>) {
+        val diffUtilCallback = DiffUtilCallback(items, newItems)
+        val diff = DiffUtil.calculateDiff(diffUtilCallback)
+        items.clear()
+        items.addAll(newItems)
+        diff.dispatchUpdatesTo(this)
     }
 
     inner class TextListHolder(
@@ -40,7 +44,7 @@ class TextListAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.elementTextView.text = data[position]
+            binding.elementTextView.text = items[position]
         }
     }
 }

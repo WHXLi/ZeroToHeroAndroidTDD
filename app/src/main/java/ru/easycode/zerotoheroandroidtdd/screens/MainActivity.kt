@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.getLiveData().observe(this) {
-            textListAdapter.addItems(it)
+            textListAdapter.update(it)
         }
     }
 }
