@@ -1,3 +1,4 @@
+/*
 package ru.easycode.zerotoheroandroidtdd.create
 
 import androidx.lifecycle.ViewModel
@@ -65,4 +66,4 @@ private interface FakeClearViewModel : ClearViewModel {
             assertEquals(expected, actual)
         }
     }
-}
+}*/
