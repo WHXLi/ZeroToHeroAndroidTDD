@@ -20,19 +20,19 @@ class ViewModelFactoryTest {
 
     @Test
     fun test_cached_same() {
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(listOf(FakeViewModelOne::class.java))
 
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(listOf(FakeViewModelOne::class.java))
     }
 
     @Test
     fun test_called_other() {
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(listOf(FakeViewModelOne::class.java))
 
-        factory.create(viewModelClass = FakeViewModelTwo::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelTwo::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -43,10 +43,10 @@ class ViewModelFactoryTest {
 
     @Test
     fun test_clear_first() {
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(listOf(FakeViewModelOne::class.java))
 
-        factory.create(viewModelClass = FakeViewModelTwo::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelTwo::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -54,7 +54,7 @@ class ViewModelFactoryTest {
             )
         )
 
-        factory.remove(viewModelClass = FakeViewModelOne::class.java)
+        factory.removeViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -62,7 +62,7 @@ class ViewModelFactoryTest {
             )
         )
 
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -74,10 +74,10 @@ class ViewModelFactoryTest {
 
     @Test
     fun test_clear_second() {
-        factory.create(viewModelClass = FakeViewModelOne::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelOne::class.java)
         provideViewModel.checkCalled(listOf(FakeViewModelOne::class.java))
 
-        factory.create(viewModelClass = FakeViewModelTwo::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelTwo::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -85,7 +85,7 @@ class ViewModelFactoryTest {
             )
         )
 
-        factory.remove(viewModelClass = FakeViewModelTwo::class.java)
+        factory.removeViewModel(viewModelClass = FakeViewModelTwo::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -93,7 +93,7 @@ class ViewModelFactoryTest {
             )
         )
 
-        factory.create(viewModelClass = FakeViewModelTwo::class.java)
+        factory.createViewModel(viewModelClass = FakeViewModelTwo::class.java)
         provideViewModel.checkCalled(
             listOf(
                 FakeViewModelOne::class.java,
@@ -116,7 +116,7 @@ private interface FakeProvideViewModel : ViewModelProvider.Create {
             assertEquals(expected, list)
         }
 
-        override fun <T : ViewModel> create(viewModelClass: Class<T>): T {
+        override fun <T : ViewModel> createViewModel(viewModelClass: Class<T>): T {
             list.add(viewModelClass)
             return viewModelClass.getDeclaredConstructor().newInstance()
         }

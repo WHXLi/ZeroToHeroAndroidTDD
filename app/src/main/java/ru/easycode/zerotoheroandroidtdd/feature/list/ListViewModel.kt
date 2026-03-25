@@ -1,6 +1,7 @@
-package ru.easycode.zerotoheroandroidtdd.list
+package ru.easycode.zerotoheroandroidtdd.feature.list
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import ru.easycode.zerotoheroandroidtdd.core.bundle.BundleWrapper
 import ru.easycode.zerotoheroandroidtdd.navigation.Navigation
 import ru.easycode.zerotoheroandroidtdd.navigation.screen.CreateScreen
@@ -8,7 +9,7 @@ import ru.easycode.zerotoheroandroidtdd.navigation.screen.CreateScreen
 class ListViewModel(
     private val liveDataWrapper: ListLiveDataWrapper.Mutable,
     private val navigation: Navigation.Update,
-): ListLiveDataWrapper.Read {
+): ViewModel(), ListLiveDataWrapper.Read {
     override fun liveData(): LiveData<List<CharSequence>> = liveDataWrapper.liveData()
 
     fun create() {

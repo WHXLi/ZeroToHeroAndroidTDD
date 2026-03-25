@@ -1,4 +1,4 @@
-package ru.easycode.zerotoheroandroidtdd.list
+package ru.easycode.zerotoheroandroidtdd.feature.list
 
 import ru.easycode.zerotoheroandroidtdd.core.bundle.BundleWrapper
 import ru.easycode.zerotoheroandroidtdd.core.livedata.LiveDataWrapper
@@ -13,8 +13,6 @@ interface ListLiveDataWrapper: LiveDataWrapper {
     }
 
     interface Read: LiveDataWrapper.Read<List<CharSequence>>
-
-    interface Update: LiveDataWrapper.Update<List<CharSequence>>
 
     interface Mutable: LiveDataWrapper.Mutable<List<CharSequence>>, Save
 

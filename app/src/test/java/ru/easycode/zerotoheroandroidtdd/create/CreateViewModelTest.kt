@@ -1,16 +1,16 @@
-/*
 package ru.easycode.zerotoheroandroidtdd.create
 
 import androidx.lifecycle.ViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.easycode.zerotoheroandroidtdd.core.ClearViewModel
+import ru.easycode.zerotoheroandroidtdd.feature.clear.ClearViewModel
+import ru.easycode.zerotoheroandroidtdd.feature.create.CreateViewModel
 import ru.easycode.zerotoheroandroidtdd.list.FakeListLiveDataWrapper
-import ru.easycode.zerotoheroandroidtdd.list.ListLiveDataWrapper
+import ru.easycode.zerotoheroandroidtdd.feature.list.ListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.main.FakeNavigation
-import ru.easycode.zerotoheroandroidtdd.main.Navigation
-import ru.easycode.zerotoheroandroidtdd.main.Screen
+import ru.easycode.zerotoheroandroidtdd.navigation.Navigation
+import ru.easycode.zerotoheroandroidtdd.navigation.screen.Screen
 
 class CreateViewModelTest {
 
@@ -66,4 +66,4 @@ private interface FakeClearViewModel : ClearViewModel {
             assertEquals(expected, actual)
         }
     }
-}*/
+}
