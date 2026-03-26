@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), ViewModelProvider.Create {
     private fun initViewModel(firstRun: Boolean) {
         viewModel = createViewModel(MainViewModel::class.java)
         viewModel.liveData().observe(this) {
-
+            it.show(supportFragmentManager, binding.container.id)
         }
         viewModel.init(firstRun)
     }

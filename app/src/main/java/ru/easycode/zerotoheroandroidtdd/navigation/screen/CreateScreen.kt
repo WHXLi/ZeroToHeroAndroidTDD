@@ -1,4 +1,5 @@
 package ru.easycode.zerotoheroandroidtdd.navigation.screen
 
-object CreateScreen: Screen {
-}
+import ru.easycode.zerotoheroandroidtdd.feature.create.CreateFragment
+
+object CreateScreen: Screen.Add(CreateFragment::class.java)

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.easycode.zerotoheroandroidtdd.feature.clear.ClearViewModel
+import ru.easycode.zerotoheroandroidtdd.core.viewmodel.ViewModelProvider
 import ru.easycode.zerotoheroandroidtdd.feature.create.CreateViewModel
 import ru.easycode.zerotoheroandroidtdd.list.FakeListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.feature.list.ListLiveDataWrapper
@@ -31,7 +31,7 @@ class CreateViewModelTest {
         viewModel = CreateViewModel(
             addLiveDataWrapper = add,
             navigation = navigationUpdate,
-            clearViewModel = clearViewModel
+            removeProvider = clearViewModel
         )
     }
 
@@ -51,14 +51,14 @@ class CreateViewModelTest {
     }
 }
 
-private interface FakeClearViewModel : ClearViewModel {
+private interface FakeClearViewModel : ViewModelProvider.Remove {
 
     fun checkClearCalled(expected: Class<out ViewModel>)
 
     class Base : FakeClearViewModel {
         private lateinit var actual: Class<out ViewModel>
 
-        override fun clear(viewModelClass: Class<out ViewModel>) {
+        override fun removeViewModel(viewModelClass: Class<out ViewModel>) {
             actual = viewModelClass
         }
 

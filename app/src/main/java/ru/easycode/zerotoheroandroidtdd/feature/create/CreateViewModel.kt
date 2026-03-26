@@ -1,16 +1,24 @@
 package ru.easycode.zerotoheroandroidtdd.feature.create
 
-import ru.easycode.zerotoheroandroidtdd.feature.clear.ClearViewModel
+import androidx.lifecycle.ViewModel
+import ru.easycode.zerotoheroandroidtdd.core.viewmodel.ViewModelProvider
 import ru.easycode.zerotoheroandroidtdd.feature.list.ListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.navigation.Navigation
+import ru.easycode.zerotoheroandroidtdd.navigation.screen.Screen
 
 class CreateViewModel(
-    addLiveDataWrapper: ListLiveDataWrapper.Add,
-    navigation: Navigation.Update,
-    clearViewModel: ClearViewModel,
-): ListLiveDataWrapper.Add {
+    private val addLiveDataWrapper: ListLiveDataWrapper.Add,
+    private val navigation: Navigation.Update,
+    private val removeProvider: ViewModelProvider.Remove,
+): ViewModel() {
 
-    override fun add(source: CharSequence) {
-        TODO("Not yet implemented")
+    fun add(text: CharSequence) {
+        addLiveDataWrapper.add(text)
+        comeback()
+    }
+
+    fun comeback() {
+        navigation.update(Screen.Pop)
+        removeProvider.removeViewModel(this::class.java)
     }
 }

@@ -6,20 +6,17 @@ interface ViewModelFactory: ViewModelProvider.Provide {
     class Base(
         private val viewModelProvider: ViewModelProvider.Create,
     ): ViewModelFactory {
-        private val map: MutableMap<Class<out ViewModel>, ViewModel> = mutableMapOf()
+        private val cachedViewModels: MutableMap<Class<out ViewModel>, ViewModel> = mutableMapOf()
 
         override fun <T : ViewModel> createViewModel(viewModelClass: Class<T>): T {
-            return if (map.containsKey(viewModelClass))
-                map[viewModelClass] as T
-            else {
-                val viewModel = viewModelProvider.createViewModel(viewModelClass)
-                map[viewModelClass] = viewModel
-                viewModel
-            }
+            val viewModel = cachedViewModels[viewModelClass]
+            return if (viewModel == null) viewModelProvider.createViewModel(viewModelClass).also {
+                cachedViewModels[viewModelClass] = it
+            } else viewModel as T
         }
 
         override fun removeViewModel(viewModelClass: Class<out ViewModel>) {
-            map.remove(viewModelClass)
+            cachedViewModels.remove(viewModelClass)
         }
     }
 }

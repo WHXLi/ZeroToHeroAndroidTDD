@@ -18,7 +18,7 @@ interface ListLiveDataWrapper: LiveDataWrapper {
 
     interface All: Mutable, Add, Save
 
-    class Base : LiveDataWrapper.Base<List<CharSequence>>(), All  {
+    class Base : LiveDataWrapper.Abstract<List<CharSequence>>(), All  {
         override fun add(source: CharSequence) {
             val currentList = liveData.value ?: ArrayList()
             val newList = ArrayList(currentList)
