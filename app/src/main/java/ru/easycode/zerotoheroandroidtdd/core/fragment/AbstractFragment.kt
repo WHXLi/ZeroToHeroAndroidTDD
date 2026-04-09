@@ -15,6 +15,7 @@ abstract class AbstractFragment<B: ViewBinding>: Fragment() {
     private var _binding: B? = null
     protected val binding get() = _binding!!
     protected lateinit var viewModelProvider: ViewModelProvider.Create
+    private var onBackPressedCallback: OnBackPressedCallback? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +34,7 @@ abstract class AbstractFragment<B: ViewBinding>: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        onBackPressedCallback?.remove()
     }
 
     protected abstract fun bind(
@@ -41,12 +43,15 @@ abstract class AbstractFragment<B: ViewBinding>: Fragment() {
     ): B
 
     protected fun onBackPressed(action: () -> Unit) {
-        requireActivity().onBackPressedDispatcher.addCallback(
-            owner = viewLifecycleOwner,
-            onBackPressedCallback = object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() = action()
-            },
-        )
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = action()
+        }
+        onBackPressedCallback?.let {
+            requireActivity().onBackPressedDispatcher.addCallback(
+                owner = viewLifecycleOwner,
+                onBackPressedCallback = it,
+            )
+        }
     }
 
     protected fun hideKeyboard() {
