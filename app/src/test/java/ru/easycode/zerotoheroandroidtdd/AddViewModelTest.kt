@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.core.livedata.ListLiveDataWrapper
+import ru.easycode.zerotoheroandroidtdd.repository.Repository
+import ru.easycode.zerotoheroandroidtdd.core.viewmodel.ClearViewModelHandler
+import ru.easycode.zerotoheroandroidtdd.feature.list.AddViewModel
 
 class AddViewModelTest {
 
@@ -12,14 +16,13 @@ class AddViewModelTest {
         val order = Order()
         val repository = FakeAddRepository.Base(order)
         val liveDataWrapper = FakeAddLiveDataWrapper.Base(order)
-        val clear = FakeClearViewModel.Base(order)
+        val clear = FakeClearViewModelHandler.Base(order)
         val viewModel =
             AddViewModel(
                 repository = repository,
                 liveDataWrapper = liveDataWrapper,
                 clear = clear,
                 dispatcher = Dispatchers.Unconfined,
-                dispatcherMain = Dispatchers.Unconfined
             )
 
         viewModel.add(value = "new text input")
@@ -36,14 +39,13 @@ class AddViewModelTest {
         val order = Order()
         val repository = FakeAddRepository.Base(order)
         val liveDataWrapper = FakeAddLiveDataWrapper.Base(order)
-        val clear = FakeClearViewModel.Base(order)
+        val clear = FakeClearViewModelHandler.Base(order)
         val viewModel =
             AddViewModel(
                 repository = repository,
                 liveDataWrapper = liveDataWrapper,
                 clear = clear,
                 dispatcher = Dispatchers.Unconfined,
-                dispatcherMain = Dispatchers.Unconfined
             )
 
         viewModel.comeback()
@@ -67,11 +69,11 @@ private class Order {
     }
 }
 
-private interface FakeClearViewModel : ClearViewModel {
+private interface FakeClearViewModelHandler : ClearViewModelHandler {
 
     fun checkClearCalled(expected: Class<out ViewModel>)
 
-    class Base(private val order: Order) : FakeClearViewModel {
+    class Base(private val order: Order) : FakeClearViewModelHandler {
 
         private lateinit var actual: Class<out ViewModel>
 

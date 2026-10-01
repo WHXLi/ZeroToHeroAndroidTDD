@@ -9,6 +9,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.easycode.zerotoheroandroidtdd.room.ItemEntity
+import ru.easycode.zerotoheroandroidtdd.room.ItemsDao
+import ru.easycode.zerotoheroandroidtdd.room.ItemsDataBase
 import java.io.IOException
 
 /**
@@ -37,18 +40,18 @@ class RoomTest {
 
     @Test
     fun test() {
-        assertEquals(emptyList<ItemCache>(), dao.list())
+        assertEquals(emptyList<ItemEntity>(), dao.list())
 
-        val cache = ItemCache(id = 1L, text = "first")
+        val cache = ItemEntity(id = 1L, text = "first")
         dao.add(item = cache)
-        assertEquals(listOf(ItemCache(id = 1L, text = "first")), dao.list())
+        assertEquals(listOf(ItemEntity(id = 1L, text = "first")), dao.list())
 
-        val next = ItemCache(id = 2L, text = "second")
+        val next = ItemEntity(id = 2L, text = "second")
         dao.add(item = next)
         assertEquals(
             listOf(
-                ItemCache(id = 1L, text = "first"),
-                ItemCache(id = 2L, text = "second")
+                ItemEntity(id = 1L, text = "first"),
+                ItemEntity(id = 2L, text = "second")
             ), dao.list()
         )
     }

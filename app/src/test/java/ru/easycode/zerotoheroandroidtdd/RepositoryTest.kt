@@ -2,6 +2,10 @@ package ru.easycode.zerotoheroandroidtdd
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.repository.Now
+import ru.easycode.zerotoheroandroidtdd.repository.Repository
+import ru.easycode.zerotoheroandroidtdd.room.ItemEntity
+import ru.easycode.zerotoheroandroidtdd.room.ItemsDao
 
 class RepositoryTest {
 
@@ -13,8 +17,8 @@ class RepositoryTest {
 
         dataSource.expectList(
             listOf(
-                ItemCache(id = 0L, text = "first"),
-                ItemCache(id = 1L, text = "second")
+                ItemEntity(id = 0L, text = "first"),
+                ItemEntity(id = 1L, text = "second")
             )
         )
 
@@ -25,9 +29,9 @@ class RepositoryTest {
         repository.add(value = "third")
         dataSource.checkList(
             listOf(
-                ItemCache(id = 0L, text = "first"),
-                ItemCache(id = 1L, text = "second"),
-                ItemCache(id = 7778L, text = "third")
+                ItemEntity(id = 0L, text = "first"),
+                ItemEntity(id = 1L, text = "second"),
+                ItemEntity(id = 7778L, text = "third")
             )
         )
     }
@@ -45,27 +49,27 @@ private interface FakeNow : Now {
 
 private interface FakeDataSource : ItemsDao {
 
-    fun checkList(expected: List<ItemCache>)
+    fun checkList(expected: List<ItemEntity>)
 
-    fun expectList(list: List<ItemCache>)
+    fun expectList(list: List<ItemEntity>)
 
     class Base : FakeDataSource {
 
-        private val list = mutableListOf<ItemCache>()
+        private val list = mutableListOf<ItemEntity>()
 
-        override fun checkList(expected: List<ItemCache>) {
+        override fun checkList(expected: List<ItemEntity>) {
             assertEquals(expected, list)
         }
 
-        override fun expectList(list: List<ItemCache>) {
+        override fun expectList(list: List<ItemEntity>) {
             this.list.addAll(list)
         }
 
-        override fun list(): List<ItemCache> {
+        override fun list(): List<ItemEntity> {
             return list
         }
 
-        override fun add(item: ItemCache) {
+        override fun add(item: ItemEntity) {
             list.add(item)
         }
     }

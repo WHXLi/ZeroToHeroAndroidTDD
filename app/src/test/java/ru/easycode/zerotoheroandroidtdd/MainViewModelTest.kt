@@ -4,6 +4,11 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.core.bundle.BundleWrapper
+import ru.easycode.zerotoheroandroidtdd.core.livedata.ListLiveDataWrapper
+import ru.easycode.zerotoheroandroidtdd.repository.Repository
+import ru.easycode.zerotoheroandroidtdd.main.MainViewModel
+import ru.easycode.zerotoheroandroidtdd.navigation.Navigation
 
 class MainViewModelTest {
 
@@ -14,7 +19,7 @@ class MainViewModelTest {
         val viewModel = MainViewModel(
             repository = repository, liveDataWrapper = liveDataWrapper,
             dispatcher = Dispatchers.Unconfined,
-            dispatcherMain = Dispatchers.Unconfined
+            navigation = Navigation.Abstract()
         )
 
         repository.expectList(listOf("1", "2"))
@@ -43,6 +48,14 @@ private interface FakeListLiveDataWrapper : ListLiveDataWrapper.Mutable {
 
         override fun liveData(): LiveData<List<String>> {
             throw IllegalStateException("not used")
+        }
+
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            TODO("Not yet implemented")
+        }
+
+        override fun add(value: String) {
+            TODO("Not yet implemented")
         }
     }
 }
